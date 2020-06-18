@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start"
   },
   "dependencies": {
-    "archetype-js": "^0.6.1",
+    "archetype-js": "^0.6.1",   
     "mongodb": "^3.5.9",
     "next": "9.4.4",
     "next-connect": "^0.7.1",

@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: wemo-demo
+  name: wemo-demo
+spec:
+  replicas: 9
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: wemo-demo
+    spec:
+      containers:
+      - env:
+        - name: wemo-demo
+          value: Release
+        image: gcr.io/organic-tree-244612/wemodemo-image:20200619 
+        imagePullPolicy: Always
+        name: wemo-demo
+        ports:
+        - name: webapp-port
+          containerPort: 3000 
+        resources:
+          limits:
+            cpu: 200m
+            memory: 500Mi   
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wemo-demo
+  name: wemo-demo
+spec:
+  type: NodePort
+  ports:
+  - targetPort: 3000
+    port: 8001
+    protocol: TCP
+  selector:
+    app: wemo-demo
